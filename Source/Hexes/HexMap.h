@@ -7,6 +7,8 @@
 #include "Hex.h"
 #include "HexMap.generated.h"
 
+class AHexTile;
+
 UCLASS()
 class HEXES_API AHexMap : public AActor
 {
@@ -26,7 +28,7 @@ public:
 	int32 HexSize = 100;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AActor> HexActorClass;
+	TSubclassOf<AHexTile> HexActorClass;
 
 protected:
 	// Called when the game starts or when spawned

@@ -2,6 +2,7 @@
 
 
 #include "HexMap.h"
+#include "Hexes/HexTile.h"
 
 // Sets default values
 AHexMap::AHexMap()
@@ -42,7 +43,11 @@ void AHexMap::SpawnMap()
 		FVector Position(x, y, 0.f);
 
 		FActorSpawnParameters Params;
-		GetWorld()->SpawnActor<AActor>(HexActorClass, Position, FRotator(0.f), Params);
+		AHexTile* SpawnedTile = GetWorld()->SpawnActor<AHexTile>(HexActorClass, Position, FRotator(0.f), Params);
+		if (SpawnedTile)
+		{
+			SpawnedTile->SetHex(Hex);
+		}
 	}
 }
 

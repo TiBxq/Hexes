@@ -9,12 +9,15 @@
 /**
  * 
  */
-USTRUCT()
+USTRUCT(BlueprintType)
 struct HEXES_API FHex
 {
 	GENERATED_BODY()
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 q;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 r;
 
 	int32 GetS() const { return -q - r; }
