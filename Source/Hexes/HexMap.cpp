@@ -47,6 +47,7 @@ void AHexMap::SpawnMap()
 		if (SpawnedTile)
 		{
 			SpawnedTile->SetHex(Hex);
+			SpawnedTile->Init();
 		}
 	}
 }
