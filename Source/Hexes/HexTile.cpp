@@ -19,6 +19,8 @@ void AHexTile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Material = UMaterialInstanceDynamic::Create(MaterialClass, this);
+	TileMesh->SetMaterial(0, Material);
 }
 
 // Called every frame

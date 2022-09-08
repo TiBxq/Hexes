@@ -35,6 +35,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	FHex Hex;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UMaterialInterface* MaterialClass;
+
+	UPROPERTY()
+	UMaterialInstanceDynamic* Material;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
