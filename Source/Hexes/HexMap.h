@@ -28,6 +28,9 @@ public:
 	int32 HexSize = 100;
 
 	UPROPERTY(EditDefaultsOnly)
+	int32 MapSize = 3;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AHexTile> HexActorClass;
 
 protected:

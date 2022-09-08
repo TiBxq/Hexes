@@ -21,15 +21,27 @@ void AHexMap::BeginPlay()
 
 void AHexMap::GenerateMap()
 {
-	for (int32 i = -3; i <= 3; ++i)
-	{
-		for (int32 j = -3; j < 3; ++j)
-		{
-			FHex NewHex;
-			NewHex.q = j;
-			NewHex.r = i;
+	FHex ZeroHex(0, 0);
+	HexesList.Add(ZeroHex);
 
-			HexesList.Add(NewHex);
+	for (int32 k = 0; k < MapSize; ++k)
+	{
+		TArray<FHex> HexesToAdd;
+		for (const FHex& Hex : HexesList)
+		{
+			for (int32 i = 0; i < 6; ++i)
+			{
+				FHex NewHex = Hex.GetNeighbor(i);
+				if (!HexesList.Contains(NewHex) && !HexesToAdd.Contains(NewHex))
+				{
+					HexesToAdd.Add(NewHex);
+				}
+			}
+		}
+
+		for (const FHex& Hex : HexesToAdd)
+		{
+			HexesList.Add(Hex);
 		}
 	}
 }
