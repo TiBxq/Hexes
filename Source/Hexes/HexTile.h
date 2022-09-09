@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SelectTile();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void DeSelectTile();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

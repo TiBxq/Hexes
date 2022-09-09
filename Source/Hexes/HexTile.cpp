@@ -37,7 +37,6 @@ void AHexTile::Tick(float DeltaTime)
 
 void AHexTile::OnTileClicked(AActor* TouchedActor, FKey ButtonPressed)
 {
-	SelectTile();
 	if (ParentMap)
 	{
 		ParentMap->SelectTile(this);

@@ -60,8 +60,23 @@ void AHexMap::SpawnMap()
 		if (SpawnedTile)
 		{
 			SpawnedTile->SetHex(Hex);
+			SpawnedTile->SetMap(this);
 			SpawnedTile->Init();
 		}
+	}
+}
+
+void AHexMap::SelectTile(AHexTile* Tile)
+{
+	if (SelectedTile)
+	{
+		SelectedTile->DeSelectTile();
+	}
+
+	SelectedTile = Tile;
+	if (SelectedTile)
+	{
+		SelectedTile->SelectTile();
 	}
 }
 

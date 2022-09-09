@@ -24,7 +24,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnMap();
 
-	void SelectTile(AHexTile* Tile) { SelectedTile = Tile; }
+	void SelectTile(AHexTile* Tile);
 
 	UPROPERTY(VisibleAnywhere)
 	int32 HexSize = 100;
