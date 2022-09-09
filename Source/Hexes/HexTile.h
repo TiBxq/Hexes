@@ -8,6 +8,7 @@
 #include "HexTile.generated.h"
 
 class UStaticMeshComponent;
+class AHexMap;
 
 UCLASS()
 class HEXES_API AHexTile : public AActor
@@ -22,12 +23,20 @@ public:
 
 	void SetHex(const FHex& NewHex) { Hex = NewHex; }
 
+	void SetMap(AHexMap* Map) { ParentMap = Map; }
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void Init();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SelectTile();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void OnTileClicked(AActor* TouchedActor, FKey ButtonPressed);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	UStaticMeshComponent* TileMesh;
@@ -38,8 +47,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMaterialInterface* MaterialClass;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UMaterialInstanceDynamic* Material;
+
+	UPROPERTY()
+	AHexMap* ParentMap;
 
 public:	
 	// Called every frame

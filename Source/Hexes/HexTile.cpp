@@ -3,6 +3,7 @@
 
 #include "HexTile.h"
 #include "Components/StaticMeshComponent.h"
+#include "Hexes/HexMap.h"
 
 // Sets default values
 AHexTile::AHexTile()
@@ -12,6 +13,8 @@ AHexTile::AHexTile()
 
 	TileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Tile Mesh"));
 	TileMesh->SetupAttachment(RootComponent);
+
+	ParentMap = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +24,8 @@ void AHexTile::BeginPlay()
 	
 	Material = UMaterialInstanceDynamic::Create(MaterialClass, this);
 	TileMesh->SetMaterial(0, Material);
+
+	OnClicked.AddDynamic(this, &AHexTile::OnTileClicked);
 }
 
 // Called every frame
@@ -28,5 +33,14 @@ void AHexTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AHexTile::OnTileClicked(AActor* TouchedActor, FKey ButtonPressed)
+{
+	SelectTile();
+	if (ParentMap)
+	{
+		ParentMap->SelectTile(this);
+	}
 }
 

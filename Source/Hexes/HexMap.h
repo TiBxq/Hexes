@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnMap();
 
+	void SelectTile(AHexTile* Tile) { SelectedTile = Tile; }
+
 	UPROPERTY(VisibleAnywhere)
 	int32 HexSize = 100;
 
@@ -39,6 +41,8 @@ protected:
 
 	TArray<FHex> HexesList;
 
+	UPROPERTY()
+	AHexTile* SelectedTile;
 
 public:	
 	// Called every frame
