@@ -37,6 +37,17 @@ struct HEXES_API FHex
 		return FHex(q + other.q, r + other.r);
 	}
 
+	FHex Subtract(const FHex& other)
+	{
+		return FHex(q - other.q, r - other.r);
+	}
+
+	int32 Distance(const FHex& other)
+	{
+		FHex dif = Subtract(other);
+		return (FMath::Abs(dif.q) + FMath::Abs(dif.r) + FMath::Abs(dif.GetS())) / 2;
+	}
+
 	static TArray<FHex> GetDirectionVectors()
 	{
 		static TArray<FHex> Directions = 
@@ -46,7 +57,7 @@ struct HEXES_API FHex
 		return Directions;
 	}
 
-	FHex GetDirection(int32 direction) const
+	static FHex GetDirection(int32 direction)
 	{
 		return GetDirectionVectors()[direction];
 	}
