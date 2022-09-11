@@ -127,7 +127,7 @@ struct HEXES_API FHex
 		FHexCubeFloat StartCube(Start.ToCube());
 		FHexCubeFloat EndCube(End.ToCube());
 
-		for (int32 i = 0; i < N; ++i)
+		for (int32 i = 0; i <= N; ++i)
 		{
 			FHexCube HexCube = (StartCube.Lerp(EndCube, 1.f / N * i)).Round();
 			Result.Add(FHex(HexCube.q, HexCube.r));
