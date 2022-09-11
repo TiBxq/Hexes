@@ -9,6 +9,13 @@
 
 class AHexTile;
 
+UENUM(BlueprintType)
+enum class EHexSelectionType : uint8
+{
+	Single,
+	Line
+};
+
 UCLASS()
 class HEXES_API AHexMap : public AActor
 {
@@ -39,10 +46,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	EHexSelectionType CurrentSelectionType;
+
 	TArray<FHex> HexesList;
 
 	UPROPERTY()
-	AHexTile* SelectedTile;
+	TArray<AHexTile*> SelectedTiles;
 
 public:	
 	// Called every frame

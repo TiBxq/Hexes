@@ -10,7 +10,7 @@ AHexMap::AHexMap()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SelectedTile = nullptr;
+	CurrentSelectionType = EHexSelectionType::Single;
 }
 
 // Called when the game starts or when spawned
@@ -68,15 +68,27 @@ void AHexMap::SpawnMap()
 
 void AHexMap::SelectTile(AHexTile* Tile)
 {
-	if (SelectedTile)
+	switch (CurrentSelectionType)
 	{
-		SelectedTile->DeSelectTile();
-	}
+	case EHexSelectionType::Single:
+	{
+		for(AHexTile* PreviousTile : SelectedTiles)
+		{
+			PreviousTile->DeSelectTile();
+		}
+		SelectedTiles.Empty();
 
-	SelectedTile = Tile;
-	if (SelectedTile)
+		if (Tile)
+		{
+			SelectedTiles.Add(Tile);
+			Tile->SelectTile();
+		}
+		break;
+	}
+	case EHexSelectionType::Line:
 	{
-		SelectedTile->SelectTile();
+		break;
+	}
 	}
 }
 
