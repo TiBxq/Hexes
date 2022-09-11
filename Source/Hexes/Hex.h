@@ -119,6 +119,21 @@ struct HEXES_API FHex
 		return Add(GetDirection(direction));
 	}
 
+	TArray<FHex> GetHexesInRange(int32 Range)
+	{
+		TArray<FHex> Result;
+		for (int32 i = -Range; i <= Range; ++i)
+		{
+			int32 From = FMath::Max(-Range, -i - Range);
+			int32 To   = FMath::Min(Range, -i + Range);
+			for(int32 j = From; j <= To; ++j)
+			{
+				Result.Emplace(Add(FHex(i, j)));
+			}
+		}
+		return Result;
+	}
+
 	static TArray<FHex> GetLine(const FHex& Start, const FHex& End)
 	{
 		TArray<FHex> Result;
