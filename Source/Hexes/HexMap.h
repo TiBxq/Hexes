@@ -26,12 +26,14 @@ public:
 	AHexMap();
 
 	UFUNCTION(BlueprintCallable)
-	void GenerateMap();
+	TArray<FHex> GenerateMap() const;
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnMap();
+	void SpawnMap(const TArray<FHex>& Source);
 
 	void SelectTile(AHexTile* Tile);
+
+	AHexTile* GetTile(const FHex& Coords);
 
 	UPROPERTY(VisibleAnywhere)
 	int32 HexSize = 100;
@@ -49,6 +51,9 @@ protected:
 	EHexSelectionType CurrentSelectionType;
 
 	TArray<FHex> HexesList;
+
+	UPROPERTY()
+	TArray<AHexTile*> TilesList;
 
 	UPROPERTY()
 	TArray<AHexTile*> SelectedTiles;
