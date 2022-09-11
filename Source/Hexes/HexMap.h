@@ -13,7 +13,8 @@ UENUM(BlueprintType)
 enum class EHexSelectionType : uint8
 {
 	Single,
-	Line
+	Line,
+	Range
 };
 
 UCLASS()
@@ -47,6 +48,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void ResetSelection();
+
+	void SelectHexes(const TArray<FHex>& Hexes);
 
 	EHexSelectionType CurrentSelectionType;
 

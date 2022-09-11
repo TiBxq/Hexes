@@ -10,7 +10,7 @@ AHexMap::AHexMap()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CurrentSelectionType = EHexSelectionType::Line;
+	CurrentSelectionType = EHexSelectionType::Range;
 }
 
 // Called when the game starts or when spawned
@@ -78,11 +78,7 @@ void AHexMap::SelectTile(AHexTile* Tile)
 	{
 	case EHexSelectionType::Single:
 	{
-		for(AHexTile* PreviousTile : SelectedTiles)
-		{
-			PreviousTile->DeSelectTile();
-		}
-		SelectedTiles.Empty();
+		ResetSelection();
 
 		if (Tile)
 		{
@@ -93,24 +89,21 @@ void AHexMap::SelectTile(AHexTile* Tile)
 	}
 	case EHexSelectionType::Line:
 	{
-		for (AHexTile* PreviousTile : SelectedTiles)
-		{
-			PreviousTile->DeSelectTile();
-		}
-		SelectedTiles.Empty();
-
+		ResetSelection();
 		if (Tile)
 		{
 			TArray<FHex> LineHexes = FHex::GetLine(FHex(0, 0), Tile->GetHex());
-			for (const FHex& LineHex : LineHexes)
-			{
-				AHexTile* LineTile = GetTile(LineHex);
-				if (LineTile)
-				{
-					LineTile->SelectTile();
-					SelectedTiles.Emplace(LineTile);
-				}
-			}
+			SelectHexes(MoveTemp(LineHexes));
+		}
+		break;
+	}
+	case EHexSelectionType::Range:
+	{
+		ResetSelection();
+		if (Tile)
+		{
+			TArray<FHex> RangedHexes = Tile->GetHex().GetHexesInRange(2);
+			SelectHexes(MoveTemp(RangedHexes));
 		}
 		break;
 	}
@@ -127,6 +120,27 @@ AHexTile* AHexMap::GetTile(const FHex& Coords)
 		}
 	}
 	return nullptr;
+}
+
+void AHexMap::ResetSelection()
+{
+	for (AHexTile* PreviousTile : SelectedTiles)
+	{
+		PreviousTile->DeSelectTile();
+	}
+	SelectedTiles.Empty();
+}
+
+void AHexMap::SelectHexes(const TArray<FHex>& Hexes)
+{
+	for (const FHex& Hex : Hexes)
+	{
+		if (AHexTile* RangedTile = GetTile(Hex))
+		{
+			RangedTile->SelectTile();
+			SelectedTiles.Emplace(RangedTile);
+		}
+	}
 }
 
 // Called every frame
