@@ -119,7 +119,7 @@ struct HEXES_API FHex
 		return Add(GetDirection(direction));
 	}
 
-	TArray<FHex> GetHexesInRange(int32 Range)
+	TArray<FHex> GetHexesInRange(int32 Range) const
 	{
 		TArray<FHex> Result;
 		for (int32 i = -Range; i <= Range; ++i)
@@ -132,6 +132,29 @@ struct HEXES_API FHex
 			}
 		}
 		return Result;
+	}
+
+	TArray<FHex> GetReachableHexes(int32 Range, const TArray<FHex>& Obstacles)
+	{
+		TArray<FHex> Visited;
+		TArray<FHex> Frontier;
+		Frontier.Add(*this);
+		Visited.Add(*this);
+		while (Frontier.Num() > 0)
+		{
+			FHex CurrentHex = Frontier.Pop();
+			for (int32 i = 0; i < 6; ++i)
+			{
+				FHex NeighborHex = CurrentHex.GetNeighbor(i);
+				int32 DistanceToHex = Distance(NeighborHex);
+				if (!Visited.Contains(NeighborHex) && !Obstacles.Contains(NeighborHex) && DistanceToHex <= Range)
+				{
+					Frontier.Add(NeighborHex);
+					Visited.Add(NeighborHex);
+				}
+			}
+		}
+		return Visited;
 	}
 
 	static TArray<FHex> GetLine(const FHex& Start, const FHex& End)
