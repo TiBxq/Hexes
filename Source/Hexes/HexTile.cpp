@@ -15,6 +15,8 @@ AHexTile::AHexTile()
 	TileMesh->SetupAttachment(RootComponent);
 
 	ParentMap = nullptr;
+
+	TileType = EHexTileType::Default;
 }
 
 // Called when the game starts or when spawned
@@ -33,6 +35,17 @@ void AHexTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AHexTile::MakeObstacle()
+{
+	TileType = EHexTileType::Obstacle;
+
+	OnTileUpdated();
+	if (ParentMap)
+	{
+		ParentMap->OnTileUpdated(this);
+	}
 }
 
 void AHexTile::OnTileClicked(AActor* TouchedActor, FKey ButtonPressed)

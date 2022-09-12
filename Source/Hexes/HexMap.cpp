@@ -122,6 +122,19 @@ AHexTile* AHexMap::GetTile(const FHex& Coords)
 	return nullptr;
 }
 
+void AHexMap::OnTileUpdated(AHexTile* UpdatedTile)
+{
+
+}
+
+void AHexMap::MakeSelectedTilesObstacles()
+{
+	for (AHexTile* Tile : SelectedTiles)
+	{
+		Tile->MakeObstacle();
+	}
+}
+
 void AHexMap::ResetSelection()
 {
 	for (AHexTile* PreviousTile : SelectedTiles)

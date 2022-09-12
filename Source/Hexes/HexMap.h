@@ -36,6 +36,11 @@ public:
 
 	AHexTile* GetTile(const FHex& Coords);
 
+	void OnTileUpdated(AHexTile* UpdatedTile);
+
+	UFUNCTION(BlueprintCallable)
+	void MakeSelectedTilesObstacles();
+
 	UPROPERTY(VisibleAnywhere)
 	int32 HexSize = 100;
 

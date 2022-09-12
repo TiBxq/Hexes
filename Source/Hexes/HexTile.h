@@ -10,6 +10,13 @@
 class UStaticMeshComponent;
 class AHexMap;
 
+UENUM(BlueprintType)
+enum class EHexTileType : uint8
+{
+	Default,
+	Obstacle
+};
+
 UCLASS()
 class HEXES_API AHexTile : public AActor
 {
@@ -25,6 +32,9 @@ public:
 
 	void SetMap(AHexMap* Map) { ParentMap = Map; }
 
+	UFUNCTION(BlueprintCallable)
+	void MakeObstacle();
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void Init();
 
@@ -33,6 +43,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void DeSelectTile();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnTileUpdated();
 
 protected:
 	// Called when the game starts or when spawned
@@ -52,6 +65,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UMaterialInstanceDynamic* Material;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	EHexTileType TileType;
 
 	UPROPERTY()
 	AHexMap* ParentMap;
