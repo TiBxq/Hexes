@@ -32,6 +32,8 @@ public:
 
 	void SetMap(AHexMap* Map) { ParentMap = Map; }
 
+	EHexTileType GetHexType() const { return TileType; }
+
 	UFUNCTION(BlueprintCallable)
 	void MakeObstacle();
 

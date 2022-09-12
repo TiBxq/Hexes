@@ -10,7 +10,7 @@ AHexMap::AHexMap()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CurrentSelectionType = EHexSelectionType::Range;
+	CurrentSelectionType = EHexSelectionType::RangeReachable;
 }
 
 // Called when the game starts or when spawned
@@ -107,6 +107,16 @@ void AHexMap::SelectTile(AHexTile* Tile)
 		}
 		break;
 	}
+	case EHexSelectionType::RangeReachable:
+	{
+		ResetSelection();
+		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
+		{
+			TArray<FHex> RangedHexes = Tile->GetHex().GetReachableHexes(2, GetObstacles());
+			SelectHexes(MoveTemp(RangedHexes));
+		}
+		break;
+	}
 	}
 }
 
@@ -120,6 +130,19 @@ AHexTile* AHexMap::GetTile(const FHex& Coords)
 		}
 	}
 	return nullptr;
+}
+
+TArray<FHex> AHexMap::GetObstacles() const
+{
+	TArray<FHex> Result;
+	for (const AHexTile* Tile : TilesList)
+	{
+		if (Tile->GetHexType() == EHexTileType::Obstacle)
+		{
+			Result.Emplace(Tile->GetHex());
+		}
+	}
+	return Result;
 }
 
 void AHexMap::OnTileUpdated(AHexTile* UpdatedTile)

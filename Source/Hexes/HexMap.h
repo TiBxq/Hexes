@@ -14,7 +14,8 @@ enum class EHexSelectionType : uint8
 {
 	Single,
 	Line,
-	Range
+	Range,
+	RangeReachable
 };
 
 UCLASS()
@@ -35,6 +36,8 @@ public:
 	void SelectTile(AHexTile* Tile);
 
 	AHexTile* GetTile(const FHex& Coords);
+
+	TArray<FHex> GetObstacles() const;
 
 	void OnTileUpdated(AHexTile* UpdatedTile);
 
