@@ -44,6 +44,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MakeSelectedTilesObstacles();
 
+	UFUNCTION(BlueprintCallable)
+	void SetSelectionType(EHexSelectionType NewType) { CurrentSelectionType = NewType; }
+
 	UPROPERTY(VisibleAnywhere)
 	int32 HexSize = 100;
 
