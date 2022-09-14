@@ -137,20 +137,22 @@ struct HEXES_API FHex
 	TArray<FHex> GetReachableHexes(int32 Range, const TArray<FHex>& Obstacles)
 	{
 		TArray<FHex> Visited;
-		TArray<FHex> Frontier;
-		Frontier.Add(*this);
+		TMap<int32, TArray<FHex>> Frontier;
+		Frontier.Add(0, { *this });
 		Visited.Add(*this);
-		while (Frontier.Num() > 0)
+		for(int32 k = 0; k < Range; ++k)
 		{
-			FHex CurrentHex = Frontier.Pop();
-			for (int32 i = 0; i < 6; ++i)
+			for (const FHex& CurrentHex : Frontier[k])
 			{
-				FHex NeighborHex = CurrentHex.GetNeighbor(i);
-				int32 DistanceToHex = Distance(NeighborHex);
-				if (!Visited.Contains(NeighborHex) && !Obstacles.Contains(NeighborHex) && DistanceToHex <= Range)
+				for (int32 i = 0; i < 6; ++i)
 				{
-					Frontier.Add(NeighborHex);
-					Visited.Add(NeighborHex);
+					FHex NeighborHex = CurrentHex.GetNeighbor(i);
+					if (!Visited.Contains(NeighborHex) && !Obstacles.Contains(NeighborHex))
+					{
+						TArray<FHex>& FrontierArray = Frontier.FindOrAdd(k + 1);
+						FrontierArray.Add(NeighborHex);
+						Visited.Add(NeighborHex);
+					}
 				}
 			}
 		}
