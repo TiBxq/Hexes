@@ -3,7 +3,7 @@
 
 #include "Hex.h"
 
-TArray<FHex> FHex::FindPath(const FHex& Start, const FHex& End)
+TArray<FHex> FHex::FindPath(const FHex& Start, const FHex& End, const TArray<FHex>& Obstacles)
 {
 	bool Found = false;
 	TArray<FHex> Path;
@@ -27,7 +27,7 @@ TArray<FHex> FHex::FindPath(const FHex& Start, const FHex& End)
 		for (int32 i = 0; i < 6; ++i)
 		{
 			FHex NeighborHex = CurrentHex.GetNeighbor(i);
-			if (!CameFrom.Contains(NeighborHex))
+			if (!CameFrom.Contains(NeighborHex) && !Obstacles.Contains(NeighborHex))
 			{
 				CameFrom.Emplace(NeighborHex, CurrentHex);
 				Frontier.Emplace(MoveTemp(NeighborHex));

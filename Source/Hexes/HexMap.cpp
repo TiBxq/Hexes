@@ -122,7 +122,7 @@ void AHexMap::SelectTile(AHexTile* Tile)
 		ResetSelection();
 		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
 		{
-			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex());
+			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles());
 			SelectHexes(MoveTemp(PathHexes));
 		}
 		break;
