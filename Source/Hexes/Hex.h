@@ -51,6 +51,11 @@ struct FHexCubeFloat
 			FMath::Lerp<float>(s, Other.s, Alpha)
 		);
 	}
+
+	FHexCubeFloat Add(const FHexCubeFloat& Other)
+	{
+		return FHexCubeFloat(q + Other.q, r + Other.r, s + Other.s);
+	}
 };
 
 USTRUCT(BlueprintType)
@@ -72,9 +77,16 @@ struct HEXES_API FHex
 		r = new_r;
 	}
 
+	FHex(const FHex& Other) : FHex(Other.q, Other.r) {}
+
 	bool operator==(const FHex& other) const
 	{
 		return q == other.q && r == other.r;
+	}
+
+	bool operator!=(const FHex& other) const
+	{
+		return q != other.q || r != other.r;
 	}
 
 	int32 GetS() const { return -q - r; }
@@ -159,6 +171,8 @@ struct HEXES_API FHex
 		return Visited;
 	}
 
+	static TArray<FHex> FindPath(const FHex& Start, const FHex& End);
+
 	static TArray<FHex> GetLine(const FHex& Start, const FHex& End)
 	{
 		TArray<FHex> Result;
@@ -166,6 +180,7 @@ struct HEXES_API FHex
 
 		FHexCubeFloat StartCube(Start.ToCube());
 		FHexCubeFloat EndCube(End.ToCube());
+		EndCube = EndCube.Add(FHexCubeFloat(0.1f, 0.1f, 0.1f));
 
 		for (int32 i = 0; i <= N; ++i)
 		{
@@ -176,3 +191,11 @@ struct HEXES_API FHex
 		return Result;
 	}
 };
+
+FORCEINLINE uint32 GetTypeHash(const FHex& Hex)
+{
+	return Hex.q + Hex.r;
+
+	//uint32 Hash = FCrc::MemCrc32(&Hex, sizeof(FHex));
+	//return Hash;
+}
