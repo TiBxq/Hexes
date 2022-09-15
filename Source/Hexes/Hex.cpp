@@ -11,11 +11,13 @@ TArray<FHex> FHex::FindPath(const FHex& Start, const FHex& End)
 	TArray<FHex> Frontier;
 	TMap<FHex, FHex> CameFrom;
 
-	Frontier.Add(Start);
+	Frontier.Emplace(Start);
+	CameFrom.Emplace(Start, Start);
 
 	while (Frontier.Num() > 0)
 	{
-		FHex CurrentHex = Frontier.Pop();
+		FHex CurrentHex = Frontier[0];
+		Frontier.RemoveAt(0);
 		if (CurrentHex == End)
 		{
 			Found = true;
@@ -27,7 +29,7 @@ TArray<FHex> FHex::FindPath(const FHex& Start, const FHex& End)
 			FHex NeighborHex = CurrentHex.GetNeighbor(i);
 			if (!CameFrom.Contains(NeighborHex))
 			{
-				CameFrom[NeighborHex] = CurrentHex;
+				CameFrom.Emplace(NeighborHex, CurrentHex);
 				Frontier.Emplace(MoveTemp(NeighborHex));
 			}
 		}

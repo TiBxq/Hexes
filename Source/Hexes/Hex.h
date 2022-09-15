@@ -194,8 +194,6 @@ struct HEXES_API FHex
 
 FORCEINLINE uint32 GetTypeHash(const FHex& Hex)
 {
-	return Hex.q + Hex.r;
-
-	//uint32 Hash = FCrc::MemCrc32(&Hex, sizeof(FHex));
-	//return Hash;
+	uint32 Hash = FCrc::MemCrc32(&Hex, sizeof(FHex));
+	return Hash;
 }
