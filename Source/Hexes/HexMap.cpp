@@ -117,6 +117,16 @@ void AHexMap::SelectTile(AHexTile* Tile)
 		}
 		break;
 	}
+	case EHexSelectionType::FindPath:
+	{
+		ResetSelection();
+		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
+		{
+			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex());
+			SelectHexes(MoveTemp(PathHexes));
+		}
+		break;
+	}
 	}
 }
 

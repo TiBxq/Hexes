@@ -15,7 +15,8 @@ enum class EHexSelectionType : uint8
 	Single,
 	Line,
 	Range,
-	RangeReachable
+	RangeReachable,
+	FindPath
 };
 
 UCLASS()
