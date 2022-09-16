@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "Hex.generated.h"
 
+PRAGMA_DISABLE_OPTIMIZATION
+
 struct FHexCube
 {
 	int32 q, r, s;
@@ -35,7 +37,7 @@ struct FHexCubeFloat
 
 		if (diff_q > diff_r && diff_q > diff_s)
 			rounded_q = -rounded_r - rounded_s;
-		else if (diff_r > diff_q && diff_r > diff_s)
+		else if (diff_r > diff_s)
 			rounded_r = -rounded_q - rounded_s;
 		else
 			rounded_s = -rounded_q - rounded_r;
@@ -180,7 +182,7 @@ struct HEXES_API FHex
 
 		FHexCubeFloat StartCube(Start.ToCube());
 		FHexCubeFloat EndCube(End.ToCube());
-		EndCube = EndCube.Add(FHexCubeFloat(0.1f, 0.1f, 0.1f));
+		//EndCube = EndCube.Add(FHexCubeFloat(0.f, 10.f, 10.f));
 
 		for (int32 i = 0; i <= N; ++i)
 		{
@@ -197,3 +199,5 @@ FORCEINLINE uint32 GetTypeHash(const FHex& Hex)
 	uint32 Hash = FCrc::MemCrc32(&Hex, sizeof(FHex));
 	return Hash;
 }
+
+PRAGMA_ENABLE_OPTIMIZATION
