@@ -173,7 +173,7 @@ struct HEXES_API FHex
 		return Visited;
 	}
 
-	static TArray<FHex> FindPath(const FHex& Start, const FHex& End, const TArray<FHex>& Obstacles);
+	static TArray<FHex> FindPath(const FHex& Start, const FHex& End, const TArray<FHex>& Obstacles, const TArray<FHex>& Area);
 
 	static TArray<FHex> GetLine(const FHex& Start, const FHex& End)
 	{
