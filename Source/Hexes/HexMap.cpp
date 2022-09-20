@@ -3,6 +3,7 @@
 
 #include "HexMap.h"
 #include "Hexes/HexTile.h"
+#include "Hexes/HexPawn.h"
 
 // Sets default values
 AHexMap::AHexMap()
@@ -70,6 +71,13 @@ void AHexMap::SpawnMap(const TArray<FHex>& Source)
 		}
 		TilesList.Emplace(SpawnedTile);
 	}
+}
+
+void AHexMap::SpawnTestPawn()
+{
+	FVector Position(0.f);
+	FActorSpawnParameters Params;
+	TestPawn = GetWorld()->SpawnActor<AHexPawn>(TestPawnClass, Position, FRotator(0.f), Params);
 }
 
 void AHexMap::SelectTile(AHexTile* Tile)
