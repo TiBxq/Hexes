@@ -5,6 +5,8 @@
 #include "Hexes/HexTile.h"
 #include "Hexes/HexPawn.h"
 
+PRAGMA_DISABLE_OPTIMIZATION
+
 // Sets default values
 AHexMap::AHexMap()
 {
@@ -57,9 +59,8 @@ void AHexMap::SpawnMap(const TArray<FHex>& Source)
 	HexesList = Source;
 	for (const FHex& Hex : Source)
 	{
-		float x = HexSize * (3.f / 2.f * Hex.q);
-		float y = HexSize * (FMath::Sqrt(3.f) / 2.f * Hex.q + FMath::Sqrt(3.f) * Hex.r);
-		FVector Position(x, y, 0.f);
+		TPair<float, float> Coords = Hex.GetCoords(HexSize);
+		FVector Position(Coords.Key, Coords.Value, 0.f);
 
 		FActorSpawnParameters Params;
 		AHexTile* SpawnedTile = GetWorld()->SpawnActor<AHexTile>(HexActorClass, Position, FRotator(0.f), Params);
@@ -75,7 +76,7 @@ void AHexMap::SpawnMap(const TArray<FHex>& Source)
 
 void AHexMap::SpawnTestPawn()
 {
-	FVector Position(0.f);
+	FVector Position(0.f, 0.f, 100.f);
 	FActorSpawnParameters Params;
 	TestPawn = GetWorld()->SpawnActor<AHexPawn>(TestPawnClass, Position, FRotator(0.f), Params);
 }
@@ -132,6 +133,20 @@ void AHexMap::SelectTile(AHexTile* Tile)
 		{
 			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), HexesList);
 			SelectHexes(MoveTemp(PathHexes));
+		}
+		break;
+	}
+	case EHexSelectionType::SendPath:
+	{
+		ResetSelection();
+		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
+		{
+			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), HexesList);
+			if (TestPawn)
+			{
+				TestPawn->SetPath(PathHexes);
+				TestPawn->StartMove();
+			}
 		}
 		break;
 	}
@@ -204,3 +219,4 @@ void AHexMap::Tick(float DeltaTime)
 
 }
 
+PRAGMA_ENABLE_OPTIMIZATION

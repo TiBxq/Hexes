@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Hex.h"
 #include "HexPawn.generated.h"
 
 class UStaticMeshComponent;
@@ -17,12 +18,23 @@ public:
 	// Sets default values for this pawn's properties
 	AHexPawn();
 
+	void SetPath(const TArray<FHex>& NewPath);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartMove();
+
+	UFUNCTION(BlueprintCallable)
+	FVector GetPathCoord(int32 Index);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TArray<FHex> Path;
 
 public:	
 	// Called every frame

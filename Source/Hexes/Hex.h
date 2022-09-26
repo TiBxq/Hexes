@@ -103,6 +103,13 @@ struct HEXES_API FHex
 		return FHex(q - other.q, r - other.r);
 	}
 
+	TPair<float, float> GetCoords(float HexSize) const
+	{
+		float x = HexSize * (3.f / 2.f * q);
+		float y = HexSize * (FMath::Sqrt(3.f) / 2.f * q + FMath::Sqrt(3.f) * r);
+		return TPair<float, float>(x, y);
+	}
+
 	int32 Distance(const FHex& other) const
 	{
 		FHex dif = Subtract(other);

@@ -14,6 +14,21 @@ AHexPawn::AHexPawn()
 	Mesh->SetupAttachment(RootComponent);
 }
 
+void AHexPawn::SetPath(const TArray<FHex>& NewPath)
+{
+	Path = NewPath;
+}
+
+FVector AHexPawn::GetPathCoord(int32 Index)
+{
+	if (Path.IsValidIndex(Index))
+	{
+		TPair<float, float> Coords = Path[Index].GetCoords(100.f);
+		return FVector(Coords.Key, Coords.Value, 100.f);
+	}
+	return FVector(0.f);
+}
+
 // Called when the game starts or when spawned
 void AHexPawn::BeginPlay()
 {
