@@ -3,7 +3,7 @@
 
 #include "HexTile.h"
 #include "Components/StaticMeshComponent.h"
-#include "Hexes/HexMap.h"
+#include "HexMap.h"
 
 // Sets default values
 AHexTile::AHexTile()

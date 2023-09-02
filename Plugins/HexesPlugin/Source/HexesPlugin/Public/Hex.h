@@ -6,7 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "Hex.generated.h"
 
-PRAGMA_DISABLE_OPTIMIZATION
+//PRAGMA_DISABLE_OPTIMIZATION
 
 struct FHexCube
 {
@@ -61,7 +61,7 @@ struct FHexCubeFloat
 };
 
 USTRUCT(BlueprintType)
-struct HEXES_API FHex
+struct FHex
 {
 	GENERATED_BODY()
 	
@@ -207,4 +207,4 @@ FORCEINLINE uint32 GetTypeHash(const FHex& Hex)
 	return Hash;
 }
 
-PRAGMA_ENABLE_OPTIMIZATION
+//PRAGMA_ENABLE_OPTIMIZATION

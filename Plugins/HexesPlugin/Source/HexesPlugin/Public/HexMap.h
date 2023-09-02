@@ -8,7 +8,7 @@
 #include "HexMap.generated.h"
 
 class AHexTile;
-class AHexPawn;
+//class AHexPawn;
 
 UENUM(BlueprintType)
 enum class EHexSelectionType : uint8
@@ -22,7 +22,7 @@ enum class EHexSelectionType : uint8
 };
 
 UCLASS()
-class HEXES_API AHexMap : public AActor
+class AHexMap : public AActor
 {
 	GENERATED_BODY()
 	
@@ -36,8 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnMap(const TArray<FHex>& Source);
 
-	UFUNCTION(BlueprintCallable)
-	void SpawnTestPawn();
+	//UFUNCTION(BlueprintCallable)
+	//void SpawnTestPawn();
 
 	void SelectTile(AHexTile* Tile);
 
@@ -62,8 +62,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AHexTile> HexActorClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AHexPawn> TestPawnClass;
+	//UPROPERTY(EditDefaultsOnly)
+	//TSubclassOf<AHexPawn> TestPawnClass;
 
 protected:
 	// Called when the game starts or when spawned
@@ -83,8 +83,8 @@ protected:
 	UPROPERTY()
 	TArray<AHexTile*> SelectedTiles;
 
-	UPROPERTY(BlueprintReadOnly)
-	AHexPawn* TestPawn;
+	//UPROPERTY(BlueprintReadOnly)
+	//AHexPawn* TestPawn;
 
 public:	
 	// Called every frame

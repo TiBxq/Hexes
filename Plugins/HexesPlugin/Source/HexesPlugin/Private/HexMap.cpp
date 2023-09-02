@@ -2,10 +2,10 @@
 
 
 #include "HexMap.h"
-#include "Hexes/HexTile.h"
-#include "Hexes/HexPawn.h"
+#include "HexTile.h"
+//#include "HexPawn.h"
 
-PRAGMA_DISABLE_OPTIMIZATION
+//PRAGMA_DISABLE_OPTIMIZATION
 
 // Sets default values
 AHexMap::AHexMap()
@@ -74,12 +74,12 @@ void AHexMap::SpawnMap(const TArray<FHex>& Source)
 	}
 }
 
-void AHexMap::SpawnTestPawn()
-{
-	FVector Position(0.f, 0.f, 100.f);
-	FActorSpawnParameters Params;
-	TestPawn = GetWorld()->SpawnActor<AHexPawn>(TestPawnClass, Position, FRotator(0.f), Params);
-}
+//void AHexMap::SpawnTestPawn()
+//{
+//	FVector Position(0.f, 0.f, 100.f);
+//	FActorSpawnParameters Params;
+//	//TestPawn = GetWorld()->SpawnActor<AHexPawn>(TestPawnClass, Position, FRotator(0.f), Params);
+//}
 
 void AHexMap::SelectTile(AHexTile* Tile)
 {
@@ -142,11 +142,11 @@ void AHexMap::SelectTile(AHexTile* Tile)
 		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
 		{
 			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), HexesList);
-			if (TestPawn)
+			/*if (TestPawn)
 			{
 				TestPawn->SetPath(PathHexes);
 				TestPawn->StartMove();
-			}
+			}*/
 		}
 		break;
 	}
@@ -219,4 +219,4 @@ void AHexMap::Tick(float DeltaTime)
 
 }
 
-PRAGMA_ENABLE_OPTIMIZATION
+//PRAGMA_ENABLE_OPTIMIZATION

@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Hexes/Hex.h"
+#include "Hex.h"
+#include "InputCoreTypes.h"
+
 #include "HexTile.generated.h"
 
 class UStaticMeshComponent;
@@ -18,7 +20,7 @@ enum class EHexTileType : uint8
 };
 
 UCLASS()
-class HEXES_API AHexTile : public AActor
+class AHexTile : public AActor
 {
 	GENERATED_BODY()
 	
