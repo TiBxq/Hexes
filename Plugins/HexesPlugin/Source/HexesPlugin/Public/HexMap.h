@@ -8,27 +8,14 @@
 #include "HexMap.generated.h"
 
 class AHexTile;
-//class AHexPawn;
 
-UENUM(BlueprintType)
-enum class EHexSelectionType : uint8
+UCLASS(Blueprintable, EditInlineNew)
+class HEXESPLUGIN_API UHexMap : public UObject
 {
-	Single,
-	Line,
-	Range,
-	RangeReachable,
-	FindPath,
-	SendPath
-};
-
-UCLASS()
-class AHexMap : public AActor
-{
+public:
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
-	AHexMap();
+	UHexMap();
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FHex> GenerateMap() const;
@@ -36,22 +23,24 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnMap(const TArray<FHex>& Source);
 
-	//UFUNCTION(BlueprintCallable)
-	//void SpawnTestPawn();
-
-	void SelectTile(AHexTile* Tile);
+	virtual void SelectTile(AHexTile* Tile);
 
 	AHexTile* GetTile(const FHex& Coords);
 
 	TArray<FHex> GetObstacles() const;
+
+	TArray<FHex> GetHexesList() { return HexesList; }
+
+	TArray<AHexTile*> GetSelectedTiles() { return SelectedTiles; }
 
 	void OnTileUpdated(AHexTile* UpdatedTile);
 
 	UFUNCTION(BlueprintCallable)
 	void MakeSelectedTilesObstacles();
 
-	UFUNCTION(BlueprintCallable)
-	void SetSelectionType(EHexSelectionType NewType) { CurrentSelectionType = NewType; }
+	void ResetSelection();
+
+	void SelectHexes(const TArray<FHex>& Hexes);
 
 	UPROPERTY(VisibleAnywhere)
 	int32 HexSize = 100;
@@ -62,19 +51,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AHexTile> HexActorClass;
 
-	//UPROPERTY(EditDefaultsOnly)
-	//TSubclassOf<AHexPawn> TestPawnClass;
-
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	void ResetSelection();
-
-	void SelectHexes(const TArray<FHex>& Hexes);
-
-	EHexSelectionType CurrentSelectionType;
-
 	TArray<FHex> HexesList;
 
 	UPROPERTY()
@@ -82,12 +59,4 @@ protected:
 
 	UPROPERTY()
 	TArray<AHexTile*> SelectedTiles;
-
-	//UPROPERTY(BlueprintReadOnly)
-	//AHexPawn* TestPawn;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 };

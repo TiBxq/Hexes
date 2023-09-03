@@ -10,7 +10,7 @@
 #include "HexTile.generated.h"
 
 class UStaticMeshComponent;
-class AHexMap;
+class UHexMap;
 
 UENUM(BlueprintType)
 enum class EHexTileType : uint8
@@ -20,7 +20,7 @@ enum class EHexTileType : uint8
 };
 
 UCLASS()
-class AHexTile : public AActor
+class HEXESPLUGIN_API AHexTile : public AActor
 {
 	GENERATED_BODY()
 	
@@ -32,7 +32,7 @@ public:
 
 	void SetHex(const FHex& NewHex) { Hex = NewHex; }
 
-	void SetMap(AHexMap* Map) { ParentMap = Map; }
+	void SetMap(UHexMap* Map) { ParentMap = Map; }
 
 	EHexTileType GetHexType() const { return TileType; }
 
@@ -74,7 +74,7 @@ protected:
 	EHexTileType TileType;
 
 	UPROPERTY()
-	AHexMap* ParentMap;
+	UHexMap* ParentMap;
 
 public:	
 	// Called every frame

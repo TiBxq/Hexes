@@ -61,7 +61,7 @@ struct FHexCubeFloat
 };
 
 USTRUCT(BlueprintType)
-struct FHex
+struct HEXESPLUGIN_API FHex
 {
 	GENERATED_BODY()
 	

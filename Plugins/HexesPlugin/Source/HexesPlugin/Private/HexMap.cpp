@@ -3,27 +3,14 @@
 
 #include "HexMap.h"
 #include "HexTile.h"
-//#include "HexPawn.h"
 
 //PRAGMA_DISABLE_OPTIMIZATION
 
-// Sets default values
-AHexMap::AHexMap()
+UHexMap::UHexMap()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
-	CurrentSelectionType = EHexSelectionType::RangeReachable;
 }
 
-// Called when the game starts or when spawned
-void AHexMap::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-TArray<FHex> AHexMap::GenerateMap() const
+TArray<FHex> UHexMap::GenerateMap() const
 {
 	FHex ZeroHex(0, 0);
 
@@ -53,7 +40,7 @@ TArray<FHex> AHexMap::GenerateMap() const
 	return Result;
 }
 
-void AHexMap::SpawnMap(const TArray<FHex>& Source)
+void UHexMap::SpawnMap(const TArray<FHex>& Source)
 {
 	TilesList.Empty();
 	HexesList = Source;
@@ -74,86 +61,11 @@ void AHexMap::SpawnMap(const TArray<FHex>& Source)
 	}
 }
 
-//void AHexMap::SpawnTestPawn()
-//{
-//	FVector Position(0.f, 0.f, 100.f);
-//	FActorSpawnParameters Params;
-//	//TestPawn = GetWorld()->SpawnActor<AHexPawn>(TestPawnClass, Position, FRotator(0.f), Params);
-//}
-
-void AHexMap::SelectTile(AHexTile* Tile)
+void UHexMap::SelectTile(AHexTile* Tile)
 {
-	switch (CurrentSelectionType)
-	{
-	case EHexSelectionType::Single:
-	{
-		ResetSelection();
-
-		if (Tile)
-		{
-			SelectedTiles.Add(Tile);
-			Tile->SelectTile();
-		}
-		break;
-	}
-	case EHexSelectionType::Line:
-	{
-		ResetSelection();
-		if (Tile)
-		{
-			TArray<FHex> LineHexes = FHex::GetLine(FHex(0, 0), Tile->GetHex());
-			SelectHexes(MoveTemp(LineHexes));
-		}
-		break;
-	}
-	case EHexSelectionType::Range:
-	{
-		ResetSelection();
-		if (Tile)
-		{
-			TArray<FHex> RangedHexes = Tile->GetHex().GetHexesInRange(2);
-			SelectHexes(MoveTemp(RangedHexes));
-		}
-		break;
-	}
-	case EHexSelectionType::RangeReachable:
-	{
-		ResetSelection();
-		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
-		{
-			TArray<FHex> RangedHexes = Tile->GetHex().GetReachableHexes(2, GetObstacles());
-			SelectHexes(MoveTemp(RangedHexes));
-		}
-		break;
-	}
-	case EHexSelectionType::FindPath:
-	{
-		ResetSelection();
-		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
-		{
-			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), HexesList);
-			SelectHexes(MoveTemp(PathHexes));
-		}
-		break;
-	}
-	case EHexSelectionType::SendPath:
-	{
-		ResetSelection();
-		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
-		{
-			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), HexesList);
-			/*if (TestPawn)
-			{
-				TestPawn->SetPath(PathHexes);
-				TestPawn->StartMove();
-			}*/
-		}
-		break;
-	}
-	}
 }
 
-AHexTile* AHexMap::GetTile(const FHex& Coords)
+AHexTile* UHexMap::GetTile(const FHex& Coords)
 {
 	for (AHexTile* Tile : TilesList)
 	{
@@ -165,7 +77,7 @@ AHexTile* AHexMap::GetTile(const FHex& Coords)
 	return nullptr;
 }
 
-TArray<FHex> AHexMap::GetObstacles() const
+TArray<FHex> UHexMap::GetObstacles() const
 {
 	TArray<FHex> Result;
 	for (const AHexTile* Tile : TilesList)
@@ -178,12 +90,12 @@ TArray<FHex> AHexMap::GetObstacles() const
 	return Result;
 }
 
-void AHexMap::OnTileUpdated(AHexTile* UpdatedTile)
+void UHexMap::OnTileUpdated(AHexTile* UpdatedTile)
 {
 
 }
 
-void AHexMap::MakeSelectedTilesObstacles()
+void UHexMap::MakeSelectedTilesObstacles()
 {
 	for (AHexTile* Tile : SelectedTiles)
 	{
@@ -191,7 +103,7 @@ void AHexMap::MakeSelectedTilesObstacles()
 	}
 }
 
-void AHexMap::ResetSelection()
+void UHexMap::ResetSelection()
 {
 	for (AHexTile* PreviousTile : SelectedTiles)
 	{
@@ -200,7 +112,7 @@ void AHexMap::ResetSelection()
 	SelectedTiles.Empty();
 }
 
-void AHexMap::SelectHexes(const TArray<FHex>& Hexes)
+void UHexMap::SelectHexes(const TArray<FHex>& Hexes)
 {
 	for (const FHex& Hex : Hexes)
 	{
@@ -210,13 +122,6 @@ void AHexMap::SelectHexes(const TArray<FHex>& Hexes)
 			SelectedTiles.Emplace(RangedTile);
 		}
 	}
-}
-
-// Called every frame
-void AHexMap::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 //PRAGMA_ENABLE_OPTIMIZATION
