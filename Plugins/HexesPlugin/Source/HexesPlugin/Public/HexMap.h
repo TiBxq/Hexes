@@ -9,13 +9,13 @@
 
 class AHexTile;
 
-UCLASS(Blueprintable, EditInlineNew)
-class HEXESPLUGIN_API UHexMap : public UObject
+UCLASS()
+class HEXESPLUGIN_API AHexMap : public AActor
 {
 public:
 	GENERATED_BODY()
 	
-	UHexMap();
+	AHexMap();
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FHex> GenerateMap() const;

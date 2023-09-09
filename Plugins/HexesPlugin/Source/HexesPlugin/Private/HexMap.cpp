@@ -6,11 +6,11 @@
 
 //PRAGMA_DISABLE_OPTIMIZATION
 
-UHexMap::UHexMap()
+AHexMap::AHexMap()
 {
 }
 
-TArray<FHex> UHexMap::GenerateMap() const
+TArray<FHex> AHexMap::GenerateMap() const
 {
 	FHex ZeroHex(0, 0);
 
@@ -40,7 +40,7 @@ TArray<FHex> UHexMap::GenerateMap() const
 	return Result;
 }
 
-void UHexMap::SpawnMap(const TArray<FHex>& Source)
+void AHexMap::SpawnMap(const TArray<FHex>& Source)
 {
 	TilesList.Empty();
 	HexesList = Source;
@@ -61,11 +61,11 @@ void UHexMap::SpawnMap(const TArray<FHex>& Source)
 	}
 }
 
-void UHexMap::SelectTile(AHexTile* Tile)
+void AHexMap::SelectTile(AHexTile* Tile)
 {
 }
 
-AHexTile* UHexMap::GetTile(const FHex& Coords)
+AHexTile* AHexMap::GetTile(const FHex& Coords)
 {
 	for (AHexTile* Tile : TilesList)
 	{
@@ -77,7 +77,7 @@ AHexTile* UHexMap::GetTile(const FHex& Coords)
 	return nullptr;
 }
 
-TArray<FHex> UHexMap::GetObstacles() const
+TArray<FHex> AHexMap::GetObstacles() const
 {
 	TArray<FHex> Result;
 	for (const AHexTile* Tile : TilesList)
@@ -90,12 +90,12 @@ TArray<FHex> UHexMap::GetObstacles() const
 	return Result;
 }
 
-void UHexMap::OnTileUpdated(AHexTile* UpdatedTile)
+void AHexMap::OnTileUpdated(AHexTile* UpdatedTile)
 {
 
 }
 
-void UHexMap::MakeSelectedTilesObstacles()
+void AHexMap::MakeSelectedTilesObstacles()
 {
 	for (AHexTile* Tile : SelectedTiles)
 	{
@@ -103,7 +103,7 @@ void UHexMap::MakeSelectedTilesObstacles()
 	}
 }
 
-void UHexMap::ResetSelection()
+void AHexMap::ResetSelection()
 {
 	for (AHexTile* PreviousTile : SelectedTiles)
 	{
@@ -112,7 +112,7 @@ void UHexMap::ResetSelection()
 	SelectedTiles.Empty();
 }
 
-void UHexMap::SelectHexes(const TArray<FHex>& Hexes)
+void AHexMap::SelectHexes(const TArray<FHex>& Hexes)
 {
 	for (const FHex& Hex : Hexes)
 	{

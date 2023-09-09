@@ -3,10 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "HexMap.h"
 #include "TestHexMap.generated.h"
 
-class UHexMap;
 class AHexPawn;
 class AHexTile;
 
@@ -22,12 +21,14 @@ enum class EHexSelectionType : uint8
 };
 
 UCLASS()
-class HEXES_API ATestHexMap : public AActor
+class HEXES_API ATestHexMap : public AHexMap
 {
 	GENERATED_BODY()
 	
 public:	
 	ATestHexMap();
+
+	void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
 	void SpawnTestPawn();
@@ -40,13 +41,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AHexPawn> TestPawnClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UHexMap> HexMapClass;
-
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UHexMap* HexMap;
-
 	UPROPERTY(BlueprintReadOnly)
 	AHexPawn* TestPawn;
 

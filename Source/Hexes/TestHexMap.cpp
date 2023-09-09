@@ -10,8 +10,12 @@ ATestHexMap::ATestHexMap()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	HexMap = CreateDefaultSubobject<UHexMap>(TEXT("HexMap"));
 	CurrentSelectionType = EHexSelectionType::RangeReachable;
+}
+
+void ATestHexMap::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void ATestHexMap::SpawnTestPawn()
@@ -27,61 +31,61 @@ void ATestHexMap::SelectTile(AHexTile* Tile)
 	{
 	case EHexSelectionType::Single:
 	{
-		HexMap->ResetSelection();
+		ResetSelection();
 
 		if (Tile)
 		{
-			HexMap->GetSelectedTiles().Add(Tile);
+			GetSelectedTiles().Add(Tile);
 			Tile->SelectTile();
 		}
 		break;
 	}
 	case EHexSelectionType::Line:
 	{
-		HexMap->ResetSelection();
+		ResetSelection();
 		if (Tile)
 		{
 			TArray<FHex> LineHexes = FHex::GetLine(FHex(0, 0), Tile->GetHex());
-			HexMap->SelectHexes(MoveTemp(LineHexes));
+			SelectHexes(MoveTemp(LineHexes));
 		}
 		break;
 	}
 	case EHexSelectionType::Range:
 	{
-		HexMap->ResetSelection();
+		ResetSelection();
 		if (Tile)
 		{
 			TArray<FHex> RangedHexes = Tile->GetHex().GetHexesInRange(2);
-			HexMap->SelectHexes(MoveTemp(RangedHexes));
+			SelectHexes(MoveTemp(RangedHexes));
 		}
 		break;
 	}
 	case EHexSelectionType::RangeReachable:
 	{
-		HexMap->ResetSelection();
+		ResetSelection();
 		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
 		{
-			TArray<FHex> RangedHexes = Tile->GetHex().GetReachableHexes(2, HexMap->GetObstacles());
-			HexMap->SelectHexes(MoveTemp(RangedHexes));
+			TArray<FHex> RangedHexes = Tile->GetHex().GetReachableHexes(2, GetObstacles());
+			SelectHexes(MoveTemp(RangedHexes));
 		}
 		break;
 	}
 	case EHexSelectionType::FindPath:
 	{
-		HexMap->ResetSelection();
+		ResetSelection();
 		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
 		{
-			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), HexMap->GetObstacles(), HexMap->GetHexesList());
-			HexMap->SelectHexes(MoveTemp(PathHexes));
+			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), GetHexesList());
+			SelectHexes(MoveTemp(PathHexes));
 		}
 		break;
 	}
 	case EHexSelectionType::SendPath:
 	{
-		HexMap->ResetSelection();
+		ResetSelection();
 		if (Tile && Tile->GetHexType() != EHexTileType::Obstacle)
 		{
-			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), HexMap->GetObstacles(), HexMap->GetHexesList());
+			TArray<FHex> PathHexes = FHex::FindPath(FHex(0, 0), Tile->GetHex(), GetObstacles(), GetHexesList());
 			if (TestPawn)
 			{
 				TestPawn->SetPath(PathHexes);
